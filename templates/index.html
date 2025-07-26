@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookBuzz - Discover Your Next Read</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #141414;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        header {
+            background-color: #e50914;
+            padding: 20px 40px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        input, select {
+            background: #333;
+            color: #fff;
+        }
+
+        button {
+            background-color: #e50914;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #f40612;
+        }
+
+        .slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .book-card {
+            min-width: 180px;
+            margin: 10px;
+            text-align: center;
+            background: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .book-card:hover {
+            transform: scale(1.1);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .book-card p {
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: none;
+            font-size: 2rem;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .arrow.left {
+            left: 0;
+        }
+
+        .arrow.right {
+            right: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #111;
+            color: #aaa;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>BookBuzz</header>
+
+    <div class="container">
+        <h1>Discover Your Next Favorite Book</h1>
+        <form method="POST">
+            <input type="number" name="user_id" value="1" min="1" required>
+            <select name="book" id="book">
+                {% for book in books %}
+                    <option value="{{book}}" {% if book == selected_book %}selected{% endif %}>{{book}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        {% if recommendations %}
+        <h1>Recommended For You</h1>
+        <div class="slider">
+            <button class="arrow left" onclick="slide(-1)">&#10094;</button>
+            <div class="slides" id="slides">
+                {% for rec, img in recommendations %}
+                    <div class="book-card">
+                        {% if img %}
+                            <img src="{{ url_for('static', filename=img) }}" alt="{{rec}}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/180x250.png?text={{rec}}" alt="{{rec}}">
+                        {% endif %}
+                        <p>{{rec}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="arrow right" onclick="slide(1)">&#10095;</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>© 2025 BookBuzz - Your Personal Book Guide</p>
+    </footer>
+
+    <script>
+        let slideIndex = 0;
+        let autoSlide;
+
+        function slide(direction) {
+            const slides = document.getElementById('slides');
+            const cards = document.querySelectorAll('.book-card');
+            const cardWidth = cards[0].offsetWidth + 20;
+            slideIndex += direction;
+            if (slideIndex < 0) slideIndex = 0;
+            if (slideIndex > cards.length - 4) slideIndex = cards.length - 4;
+            slides.style.transform = `translateX(${-slideIndex * cardWidth}px)`;
+        }
+
+        function startAutoSlide() {
+            autoSlide = setInterval(() => slide(1), 3000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlide);
+        }
+
+        const slider = document.querySelector('.slider');
+        slider.addEventListener('mouseover', stopAutoSlide);
+        slider.addEventListener('mouseout', startAutoSlide);
+
+        startAutoSlide();
+    </script>
+</body>
+</html>

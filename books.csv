@@ -1,0 +1,7 @@
+user_id,book_title,rating,author,genre
+1,The Hobbit,5,J.R.R. Tolkien,Fantasy Adventure
+1,Harry Potter and the Sorcerer's Stone,4,J.K. Rowling,Fantasy Magic
+2,The Lord of the Rings,5,J.R.R. Tolkien,Fantasy Epic
+2,The Name of the Wind,4,Patrick Rothfuss,Fantasy Epic
+3,A Game of Thrones,5,George R.R. Martin,Fantasy Political
+3,The Hobbit,4,J.R.R. Tolkien,Fantasy Adventure

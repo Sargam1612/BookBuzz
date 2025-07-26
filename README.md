@@ -3,7 +3,7 @@
 
 BookBuzz is an intelligent book recommendation platform built using **Machine Learning** and **Flask**.  
 It recommends books based on user preferences and reading patterns using hybrid recommendation techniques.
-![UI Screenshot](images/ui_screenshot.png)
+![UI Screenshot](static/Screenshot 2025-07-26 234634.png)
 ---
 
 ## 🚀 Features
